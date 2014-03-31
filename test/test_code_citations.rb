@@ -62,6 +62,24 @@ class CodeCitationsTest < Test::Unit::TestCase
     }
     WebMock.disable_net_connect!
   end
+
+  def test_search_europe_pmc
+    WebMock.allow_net_connect!
+    package = "vegan: Community Ecology Package" # Exists
+    VCR.use_cassette('test_search_europe_pmc', :record => :new_episodes) do
+      found = CodeCitations::EuropePmc.search(
+        package,
+        [
+          "http://CRAN.R-project.org/package=vegan",
+          "http://cran.r-project.org/web/packages/vegan/index.html"
+        ],
+        "Jari Oksanen"
+      )
+      assert_equal found, []
+    end
+    WebMock.disable_net_connect!
+  end
+
   # def test_example_real_network
   #   WebMock.allow_net_connect!
   #   assert_equal "Basic Modeling Approach To Optimize Elemental Imaging by Laser Ablation ICPMS",
