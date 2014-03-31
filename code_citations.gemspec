@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = CodeCitations::VERSION
   spec.authors       = ["Jure Triglav"]
   spec.email         = ["juretriglav@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Ruby gem for finding citations of open scientific software.}
+  spec.description   = %q{Ruby gem uses various open APIs to find citations of open scientific software.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -18,6 +18,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_runtime_dependency "rinruby"
+
+  spec.add_development_dependency "pry"
+  # Tests
+  spec.add_development_dependency "webmock"
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
 end
