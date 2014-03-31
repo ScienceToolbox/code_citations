@@ -36,6 +36,8 @@ class CodeCitationsTest < Test::Unit::TestCase
     metadata = CodeCitations.metadata(package)
     assert_equal metadata,
     {
+      "Name" => "vegan: Community Ecology Package",
+      "Description" => "Ordination methods, diversity analysis and other\nfunctions for community and vegetation ecologists.",
       "Version"=> "2.0-10",
       "Depends"=> "permute (≥ 0.8-0), lattice, R (≥ 2.15.0)",
       "Suggests"=> "MASS, mgcv, cluster, scatterplot3d, rgl, tcltk",
