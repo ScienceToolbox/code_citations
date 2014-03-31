@@ -2,12 +2,31 @@ require 'test/unit'
 require 'code_citations'
 require 'test_helper'
 require 'rinruby'
+require 'open-uri'
+require 'pry'
 
 class CodeCitationsTest < Test::Unit::TestCase
   def test_r_integration
     R.eval "x <- 10"
     x = R.pull "x"
     assert_equal x, 10
+  end
+
+  def test_cran_existing_package_lookup
+    WebMock.allow_net_connect!
+    package = "vegan" # Exists
+    response = open("http://cran.r-project.org/package=#{package}")
+    assert_equal response.status, ["200", "OK"]
+    WebMock.disable_net_connect!
+  end
+
+  def test_cran_missing_package_lookup
+    WebMock.allow_net_connect!
+    package = "vegantasticmachineblasternope" # Exists
+    assert_raise(OpenURI::HTTPError, '404 Not Found') {
+      response = open("http://cran.r-project.org/package=#{package}")
+    }
+    WebMock.disable_net_connect!
   end
 
   # def test_example_real_network
