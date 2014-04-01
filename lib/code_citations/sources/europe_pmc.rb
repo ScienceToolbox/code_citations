@@ -7,7 +7,7 @@ module CodeCitations
     def self.search(name, urls, author)
       page = 1
       found = []
-      while !defined?(results) || !results.empty?
+      loop do
         puts "Processing page #{page} of EuropePMC API results."
         puts "Found DOIs: #{found}"
         user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1907.0 Safari/537.36"
@@ -16,7 +16,7 @@ module CodeCitations
         response = open(api_url, 'User-Agent' => user_agent).read
 
         results = JSON.parse(response)['resultList']['result']
-
+        break if results.empty?
         results.each do |result|
           doi = result['doi']
           next unless doi

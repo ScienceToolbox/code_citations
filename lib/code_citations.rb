@@ -1,6 +1,8 @@
 require "code_citations/version"
 require "code_citations/sources/cran"
 require "code_citations/sources/europe_pmc"
+require "code_citations/sources/plos"
+
 module CodeCitations
 
   def self.for(software)
