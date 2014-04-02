@@ -1,18 +1,11 @@
 require 'test/unit'
 require 'code_citations'
 require 'test_helper'
-require 'rinruby'
 require 'open-uri'
 require 'csv'
 require 'pry'
 
 class CodeCitationsTest < Test::Unit::TestCase
-  def test_r_integration
-    R.eval "x <- 10"
-    x = R.pull "x"
-    assert_equal x, 10
-  end
-
   def test_cran_existing_package_lookup
     VCR.use_cassette('test_cran_existing_package_lookup', record: :new_episodes) do
       WebMock.allow_net_connect!
@@ -44,13 +37,14 @@ class CodeCitationsTest < Test::Unit::TestCase
       {
         "Name" => "vegan: Community Ecology Package",
         "Description" => "Ordination methods, diversity analysis and other functions for community and vegetation ecologists.",
+        "URLs"=> ["http://cran.r-project.org/package=vegan", "http://cran.r-project.org/web/packages/vegan"],
         "Version"=> "2.0-10",
         "Depends"=> "permute (≥ 0.8-0), lattice, R (≥ 2.15.0)",
         "Suggests"=> "MASS, mgcv, cluster, scatterplot3d, rgl, tcltk",
         "Published"=> "2013-12-12",
-        "Author"=> "Jari Oksanen, F. Guillaume Blanchet, Roeland Kindt, Pierre Legendre, Peter R. Minchin, R. B. O'Hara, Gavin L. Simpson, Peter Solymos, M. Henry H. Stevens, Helene Wagner",
         "Maintainer"=> "Jari Oksanen  <jari.oksanen at oulu.fi>",
         "License"=> "GPL-2",
+        "Author"=> ["Jari Oksanen", "F. Guillaume Blanchet", "Roeland Kindt", "Pierre Legendre", "Peter R. Minchin", "R. B. O'Hara", "Gavin L. Simpson", "Peter Solymos", "M. Henry H. Stevens", "Helene Wagner"],
         "URL" => "http://cran.r-project.org, http://vegan.r-forge.r-project.org/",
         "NeedsCompilation"=> "yes",
         "Materials" => "NEWS ChangeLog",
@@ -125,8 +119,15 @@ class CodeCitationsTest < Test::Unit::TestCase
       assert_equal found, CSV.parse(open('test/fixtures/test_search_plos_found.csv')).flatten
     end
     WebMock.disable_net_connect!
-
   end
+
+  # def test_cran_package_search
+  #   WebMock.allow_net_connect!
+  #   VCR.use_cassette('test_cran_package_search', record: :new_episodes) do
+  #     citations = CodeCitations.for('vegan')
+  #   end
+  #   WebMock.disable_net_connect!
+  # end
 
   # def test_example_real_network
   #   WebMock.allow_net_connect!
