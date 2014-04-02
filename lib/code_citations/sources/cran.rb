@@ -15,6 +15,7 @@ module CodeCitations
         key = row.css('td')[0].text.strip.gsub(/:$/, '')
         value = row.css('td')[1].text.strip.gsub("\n", ' ')
         if key == 'Author'
+          value.gsub!(/\[.*?\]/, '')
           metadata[key] = value.split(', ')
         else
           metadata[key] = value

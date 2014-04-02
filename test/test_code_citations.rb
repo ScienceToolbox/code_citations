@@ -121,13 +121,15 @@ class CodeCitationsTest < Test::Unit::TestCase
     WebMock.disable_net_connect!
   end
 
-  # def test_cran_package_search
-  #   WebMock.allow_net_connect!
-  #   VCR.use_cassette('test_cran_package_search', record: :new_episodes) do
-  #     citations = CodeCitations.for('vegan')
-  #   end
-  #   WebMock.disable_net_connect!
-  # end
+  def test_cran_package_search
+    WebMock.allow_net_connect!
+    binding.pry
+    VCR.use_cassette('test_cran_package_search', record: :new_episodes) do
+      citations = CodeCitations.for('vegan')
+      assert_equal citations, CSV.parse(open('test/fixtures/test_cran_package_search.csv'))[0]
+    end
+    WebMock.disable_net_connect!
+  end
 
   # def test_example_real_network
   #   WebMock.allow_net_connect!
